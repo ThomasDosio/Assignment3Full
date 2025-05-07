@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class StandardiseInput
@@ -8,44 +9,69 @@ public class StandardiseInput
 
                 Scanner keyboard = new Scanner(System.in);
                 {
-                    for (int r = 0; r < 10; r++)
+                    //makes list of vehicles ot order them by id
+                    ArrayList<ArrayList<ArrayList<String>>> vehicles = new ArrayList<>();
+
+                    for (int r = 0; r < 2; r++)
                         {
                             if (keyboard.hasNext())
                                 {
+                                    //makes a list of the details of the vehicle
                                     ArrayList<ArrayList<String>> vehicle =
                                             new ArrayList<>();
-                                    ArrayList<String> id = new ArrayList<>();
-                                    String vehicleid = keyboard.next();
-                                    if (vehicleid.contains(":"))
+
+                                    //for each of the six categories it adds
+                                    // the key and the info to a list
+                                    for (int j = 0; j < 6; j++)
                                         {
-                                            vehicleid = vehicleid.substring(0,
-                                                    vehicleid.indexOf(":"));
-                                        }
-                                    id.add(vehicleid);
-                                    id.add(Integer.toString(
-                                            keyboard.nextInt()));
-                                    vehicle.add(id);
-                                    for (int j = 0; j < 5; j++)
-                                        {
+                                            // creates a list with key and
+                                            // information
                                             ArrayList<String> info =
                                                     new ArrayList<>();
+
                                             String key = keyboard.next();
+                                            String string = keyboard.nextLine();
+
+                                            String [] information =
+                                                    string.split(",");
+
+                                            for (String s : information)
+                                                {
+                                                    info.add(s.trim());
+                                                }
+
                                             if (key.contains(":"))
                                                 {
                                                     key = key.substring(0,
                                                             key.indexOf(":"));
                                                 }
 
-                                            String string = keyboard.nextLine();
+                                            info.addFirst(key);
 
-                                            info.add(key);
-                                            info.add(string.substring(
-                                                            string.indexOf(":") + 1)
-                                                    .trim());
                                             vehicle.add(info);
                                         }
 
-                                    PrettyPrint(vehicle);
+                                    Sort(vehicle);
+
+                                    if(vehicles.isEmpty()) vehicles.add(vehicle);
+                                    else for (int k = 0; k < vehicles.size(); k++)
+                                        {
+                                            if (Integer.parseInt(vehicles.get(k).getFirst().get(1))>=Integer.parseInt(vehicle.getFirst().get(1)))
+                                            {
+                                                vehicles.add(k, vehicle);
+                                                break;
+                                            }
+                                            else vehicles.add(vehicles.size(),
+                                                    vehicle);
+                                        }
+
+                                    for (ArrayList<ArrayList<String>> arrayLists : vehicles)
+                                        {
+                                            PrettyPrint(arrayLists);
+                                            System.out.println();
+                                        }
+
+
                                 }
                         }
                 }
@@ -53,14 +79,14 @@ public class StandardiseInput
 
         public static void PrettyPrint (ArrayList<ArrayList<String>> vehicle)
             {
-                for (ArrayList<String> strings : vehicle)
+                for (ArrayList<String> info : vehicle)
                     {
                         System.out.println();
-                        System.out.print(strings.getFirst().trim() + ": ");
-                        for (int i = 0; i < strings.size(); i++)
+                        System.out.print(info.getFirst().trim() + ": ");
+                        for (int i = 1; i < info.size(); i++)
                             {
-                                System.out.print(removeZero(strings.get(i).trim()));
-                                if(i != strings.size() - 1) System.out.print(", ");
+                                System.out.print(removeColon(removeZero(info.get(i).trim())).trim());
+                                if(i != info.size() - 1) System.out.print(", ");
                             }
                     }
             }
@@ -70,6 +96,21 @@ public class StandardiseInput
                 int i = 0;
                 while (i < str.length() && str.charAt(i) == '0') i++;
                 return str.substring(i);
+            }
+
+        public static String removeColon(String str)
+            {
+                int i = 0;
+                while (i < str.length() && str.charAt(i) == ':') i++;
+                return str.substring(i);
+            }
+
+        public static void Sort (ArrayList<ArrayList<String>> list)
+            {
+                ArrayList<String> id = list.getFirst();
+                list.sort(Comparator.comparing(ArrayList::getFirst));
+                list.remove(id);
+                list.addFirst(id);
             }
     }
 
