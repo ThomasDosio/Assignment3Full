@@ -56,8 +56,8 @@ public class StandardiseInput
                 for (ArrayList<String> strings : vehicle)
                     {
                         System.out.println();
-                        System.out.print(strings.get(0).trim() + ": ");
-                        for (int i = 1; i < strings.size(); i++)
+                        System.out.print(strings.getFirst().trim() + ": ");
+                        for (int i = 0; i < strings.size(); i++)
                             {
                                 System.out.print(removeZero(strings.get(i).trim()));
                                 if(i != strings.size() - 1) System.out.print(", ");
