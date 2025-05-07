@@ -45,13 +45,31 @@ public class StandardiseInput
                                             vehicle.add(info);
                                         }
 
-                                    for (ArrayList<String> strings : vehicle)
-                                        {
-                                            System.out.println(strings);
-                                        }
+                                    PrettyPrint(vehicle);
                                 }
                         }
                 }
+            }
+
+        public static void PrettyPrint (ArrayList<ArrayList<String>> vehicle)
+            {
+                for (ArrayList<String> strings : vehicle)
+                    {
+                        System.out.println();
+                        System.out.print(strings.get(0).trim() + ": ");
+                        for (int i = 1; i < strings.size(); i++)
+                            {
+                                System.out.print(removeZero(strings.get(i).trim()));
+                                if(i != strings.size() - 1) System.out.print(", ");
+                            }
+                    }
+            }
+
+        public static String removeZero(String str)
+            {
+                int i = 0;
+                while (i < str.length() && str.charAt(i) == '0') i++;
+                return str.substring(i);
             }
     }
 
