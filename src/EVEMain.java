@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class EVEMain {
@@ -14,14 +13,14 @@ public class EVEMain {
                     //makes list of vehicles ot order them by id
                     ArrayList<ArrayList<ArrayList<String>>> vehicles = new ArrayList<>();
 
-                    for (int i = 0; i < 2; i++)
+                    while (!keyboard.next().isEmpty()&& !keyboard.nextLine().isEmpty())
                         {
                             ArrayList<ArrayList<String>> vehicle =
                                     CorrectInput(keyboard);
                             if(vehicles.isEmpty()) vehicles.add(vehicle);
                             else for (int k = 0; k < vehicles.size(); k++)
                                 {
-                                    if (Integer.parseInt(vehicles.get(k).getFirst().get(1))>Integer.parseInt(vehicle.getFirst().get(1)))
+                                    if (Integer.parseInt(vehicles.get(k).get(0).get(1))>Integer.parseInt(vehicle.get(0).get(1)))
                                         {
                                             vehicles.add(k, vehicle);
                                             break;
@@ -32,6 +31,13 @@ public class EVEMain {
                                             vehicles.add(vehicle);
                                         }
                                 }
+                            if (keyboard.next().isEmpty()) {
+                                for (ArrayList<ArrayList<String>> arrayLists : vehicles)
+                                    {
+                                        PrettyPrint(arrayLists);
+                                        System.out.println();
+                                    }
+                            }
                         }
 
                     for (ArrayList<ArrayList<String>> arrayLists : vehicles)
