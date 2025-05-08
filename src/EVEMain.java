@@ -13,7 +13,7 @@ public class EVEMain {
                     //makes list of vehicles ot order them by id
                     ArrayList<ArrayList<ArrayList<String>>> vehicles = new ArrayList<>();
 
-                    while (!keyboard.next().isEmpty()&& !keyboard.nextLine().isEmpty())
+                    while (keyboard.hasNext() && (keyboard.hasNext("vehicle_id")||keyboard.hasNext("vehicle_id:")))
                         {
                             ArrayList<ArrayList<String>> vehicle =
                                     CorrectInput(keyboard);
@@ -31,13 +31,6 @@ public class EVEMain {
                                             vehicles.add(vehicle);
                                         }
                                 }
-                            if (keyboard.next().isEmpty()) {
-                                for (ArrayList<ArrayList<String>> arrayLists : vehicles)
-                                    {
-                                        PrettyPrint(arrayLists);
-                                        System.out.println();
-                                    }
-                            }
                         }
 
                     for (ArrayList<ArrayList<String>> arrayLists : vehicles)
