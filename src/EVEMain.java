@@ -19,6 +19,8 @@ public class EVEMain
                         ArrayList<ArrayList<String>> vehicle =
                                 CorrectInput(keyboard);
 
+                        if (vehicle == null) continue;
+
                         if (vehicles.isEmpty())
                             {
                                 vehicles.add(vehicle);
@@ -75,24 +77,30 @@ public class EVEMain
                                 new ArrayList<>();
 
                         boolean allValidKeys= true;
+                        int counter = 0;
 
                         //for each of the six categories it adds
                         // the key and the info to a list
-                        for (int j = 0; j < 6; j++)
-                            {
+
+                        while (true){
+
+                        String line= keyboard.nextLine();
+
+                        if (line.isEmpty()) { break;}
+
+                            counter++;
+
+
                                 // creates a list with key and
                                 // information
                                 ArrayList<String> info = new ArrayList<>();
 
-                                String key = keyboard.next();
-                                String string = keyboard.nextLine();
+                                String key = line.substring(0, line.indexOf(
+                                        " "));
+                                String string = line.substring(line.indexOf(
+                                        " "));
 
                                 String[] information = string.split(",");
-
-                                for (String s : information)
-                                    {
-                                        info.add(s.trim());
-                                    }
 
                                 if (key.contains(":"))
                                     {
@@ -116,8 +124,16 @@ public class EVEMain
                                 if (validKeys) info.add(0, key);
                                 else allValidKeys = false;
 
-                                vehicle.add(info);
+                                for (String s : information)
+                                    {
+                                        if (validKeys) info.add(s.trim());
+                                    }
+
+
+                                if (!info.isEmpty()) vehicle.add(info);
                             }
+
+                        if (counter == 0) return null;
 
                         ArrayList<String> cost = new ArrayList<>();
                         cost.add("cost");
@@ -128,7 +144,10 @@ public class EVEMain
 
                         ArrayList<String> valid = new ArrayList<>();
                         valid.add("valid");
-                        if (validation(vehicle) && allValidKeys) valid.add(1,"true");
+                        if (allValidKeys &&
+                                validation(vehicle))
+                            valid.add(1,
+                            "true");
                         else valid.add(1 ,"false");
                         vehicle.add(valid);
 
