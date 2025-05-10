@@ -47,20 +47,19 @@ public class EVEMain
                                                                                 .get(1)))
                                             {
                                                 vehicles.add(vehicle);
-                                            } else if (Integer.parseInt(
-                                                vehicles.get(k).get(0)
-                                                        .get(1)) <=
-                                                Integer.parseInt(
-                                                        vehicle.get(0).get(1)))
-                                            {
-                                                vehicles.add(vehicle);
+                                                break;
                                             }
                                     }
                             }
                     }
 
-                for (ArrayList<ArrayList<String>> vehicle : vehicles)
+                for (int i = 0; i < vehicles.size(); i++)
                     {
+                        ArrayList<ArrayList<String>> vehicle = vehicles.get(i);
+                        if (i != 0)
+                            {
+                                System.out.println();
+                            }
                         PrettyPrint(vehicle);
                         System.out.println();
                     }
@@ -135,9 +134,11 @@ public class EVEMain
 
                         if (counter == 0) return null;
 
+                        Sort(vehicle);
+
                         ArrayList<String> cost = new ArrayList<>();
                         cost.add("cost");
-                        cost.add("0");
+                        cost.add(Integer.toString(costCalculator(vehicle)));
                         vehicle.add(cost);
 
                         Sort(vehicle);
@@ -280,6 +281,32 @@ public class EVEMain
                         if (vehicle.get(i).get(j).equals(option)) return true;
                     }
                 return false;
+            }
+
+        public static int costCalculator (ArrayList<ArrayList<String>> vehicle)
+            {
+                int baseCost = 0;
+                int fuelCost = 0;
+                int wheelCost = 0;
+
+                if (vehicle.get(4).get(2).equals("hatchback")) baseCost = 8000;
+                if (vehicle.get(4).get(2).equals("sedan")) baseCost = 12000;
+                if (vehicle.get(4).get(2).equals("convertible")) baseCost = 20000;
+                if (vehicle.get(4).get(2).equals("pickup")) baseCost = 20000;
+                if (vehicle.get(4).get(2).equals("eighteen wheeler")) baseCost = 35000;
+                if (vehicle.get(4).get(2).equals("sport")) baseCost = 16000;
+                if (vehicle.get(4).get(2).equals("touring")) baseCost = 9000;
+
+                if (vehicle.get(2).get(2).equals("electric")) fuelCost = 5000;
+                if (vehicle.get(2).get(2).equals("petrol")) fuelCost = 1000;
+                if (vehicle.get(2).get(2).equals("diesel")) fuelCost = 2000;
+
+                if (vehicle.get(5).get(2).equals("summer")) wheelCost = 100;
+                if (vehicle.get(5).get(2).equals("winter")) wheelCost = 120;
+                if (vehicle.get(5).get(2).equals("all-weather")) wheelCost = 150;
+
+                return baseCost + fuelCost + (wheelCost*Integer.parseInt(vehicle.get(5).get(3)));
+
             }
 
     }
