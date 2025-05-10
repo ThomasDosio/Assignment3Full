@@ -82,9 +82,9 @@ public class EVEMain
                         //for each of the six categories it adds
                         // the key and the info to a list
 
-                        while (true){
+                        while (keyboard.hasNext() && keyboard.hasNextLine()){
 
-                        String line= keyboard.nextLine();
+                        String line= keyboard.nextLine().trim();
 
                         if (line.isEmpty()) { break;}
 
@@ -162,9 +162,10 @@ public class EVEMain
 
         public static void PrettyPrint(ArrayList<ArrayList<String>> vehicle)
             {
-                for (ArrayList<String> info : vehicle)
+                for (int j = 0; j < vehicle.size(); j++)
                     {
-                        System.out.println();
+                        ArrayList<String> info = vehicle.get(j);
+                        if (j!= 0) System.out.println();
                         System.out.print(info.get(0).trim() + ": ");
                         for (int i = 1; i < info.size(); i++)
                             {
