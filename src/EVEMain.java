@@ -7,6 +7,9 @@ public class EVEMain
         public static void main(String[] args)
             {
 
+
+                String[] typesMotor = {"car", "truck", "motorcycle"};
+
                 Scanner keyboard = new Scanner(System.in);
 
                 //makes list of vehicles ot order them by id
@@ -108,7 +111,8 @@ public class EVEMain
                                     }
 
                                 String [] Keys = {"vehicle_id","type", "color",
-                                        "manufacturer", "engine", "wheels"};
+                                        "manufacturer", "engine", "wheels",
+                                        "sails"};
                                 boolean validKeys = false;
 
                                 for (String s : Keys)
@@ -138,15 +142,21 @@ public class EVEMain
 
                         ArrayList<String> cost = new ArrayList<>();
                         cost.add("cost");
-                        cost.add(Integer.toString(costCalculator(vehicle)));
+                        cost.add(//Integer.toString(costCalculator(vehicle))
+                                "0");
                         vehicle.add(cost);
 
                         Sort(vehicle);
 
                         ArrayList<String> valid = new ArrayList<>();
                         valid.add("valid");
-                        if (allValidKeys &&
-                                validation(vehicle))
+
+                        boolean validation;
+                        if (vehicle.get(vehicle.size()-1).get(0).equals(
+                                "wheels")) validation = validationMotor(vehicle);
+                        else validation = validationSea(vehicle);
+
+                        if (allValidKeys && (validation))
                             valid.add(1,
                             "true");
                         else valid.add(1 ,"false");
@@ -227,7 +237,7 @@ public class EVEMain
                 list.add(0, id);
             }
 
-        public static boolean validation(ArrayList<ArrayList<String>> vehicle)
+        public static boolean validationMotor(ArrayList<ArrayList<String>> vehicle)
             {
                 String[] colors =
                         {"red", "green", "blue", "orange", "yellow", "purple",
@@ -238,8 +248,8 @@ public class EVEMain
                 boolean validManufacturers =
                         isEqual(vehicle, 4, 1, manufacturers) &&
                                 isEqual(vehicle, 3, 1, manufacturers);
-                String[] types = {"car", "truck", "motorcycle"};
-                boolean validTypes = isEqual(vehicle, 5, 1, types);
+                String[] typesMotor = {"car", "truck", "motorcycle"};
+                boolean validTypes = isEqual(vehicle, 5, 1, typesMotor);
                 String[] carSubtypes = {"hatchback", "sedan", "convertible"};
                 String[] truckSubtypes = {"pickup", "eighteen wheeler"};
                 String[] motorcycleSubtypes = {"sport", "touring"};
@@ -290,6 +300,72 @@ public class EVEMain
                     {
                         valid = false;
                     }
+
+                return valid;
+            }
+
+        public static boolean validationSea (ArrayList<ArrayList<String>> vehicle)
+            {
+
+                String[] colors =
+                        {"red", "green", "blue", "orange", "yellow", "purple",
+                                "pink", "black", "white", "silver", "gold"};
+                boolean validColours = isEqual(vehicle, 1, 1, colors);
+                String[] manufacturers =
+                        {"ACME", "Consolidated Products", "Goliath Inc."};
+                boolean validManufacturers =
+                        isEqual(vehicle, 4, 1, manufacturers);
+
+                boolean validSails;
+
+
+                String[] typesSea = {"sailing vessel", "powered vessel"};
+                boolean sails = vehicle.get(5).get(1).equals("sailing vessel");
+                if (!sails)
+                    {
+                        String[] Subtypes ={"jetski", "yacht", "cargo ship"};
+                        boolean validSubtypes =
+                                vehicle.get(5).get(1).equals("powered vessel") &&
+                                        isEqual(vehicle, 5, 2, Subtypes);
+                        boolean validManufacturer =
+                                isEqual(vehicle, 3, 1, manufacturers);
+                        String[] fuels = {"diesel", "petrol"};
+                        boolean validFuels =
+                                (vehicle.get(5).get(2).equals("yacht") &&
+                                        isEqual(vehicle, 3, 2, fuels)) ||
+                                        (vehicle.get(5).get(2)
+                                                .equals("jetski") &&vehicle.get(3).get(2).equals("petrol")) ||
+                                        (vehicle.get(5).get(2)
+                                                .equals("cargo ship") &&
+                                                vehicle.get(3).get(2)
+                                                        .equals("diesel"));
+                        validSails = validSubtypes && validManufacturer &&
+                                validFuels;
+                    } else
+                    {
+                        String[] Subtypes ={"xebec", "frigate", "schooner"};
+                        boolean validSubtypes =
+                                vehicle.get(5).get(1).equals("sailing vessel") &&
+                                        isEqual(vehicle, 5, 2, Subtypes);
+                        boolean validManufacturer =
+                                isEqual(vehicle, 4, 1, manufacturers);
+                        String [] sailTypes = {"canvas", "nylon", "mylar"};
+                        boolean validSailTypes = isEqual(vehicle, 4, 2,
+                                sailTypes);
+                        boolean sailNumberCheck =
+                                !vehicle.get(4).get(3).chars().allMatch(Character::isAlphabetic);
+                        boolean rightNumberSails =
+                                (vehicle.get(5).get(2).equals(
+                                "frigate") && vehicle.get(4).get(3).equals(
+                                        "10")) || (vehicle.get(5).get(2).equals("xebec")
+                                && vehicle.get(4).get(3).equals("3")) ||
+                                (vehicle.get(5).get(2).equals("schooner") && vehicle.get(4).get(3).equals("6"));
+                        validSails =
+                                validSailTypes && validSubtypes && sailNumberCheck && rightNumberSails && validManufacturer;
+
+                    }
+
+                boolean valid = validColours && validManufacturers && validSails;
 
                 return valid;
             }
