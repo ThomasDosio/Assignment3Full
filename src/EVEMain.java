@@ -142,8 +142,7 @@ public class EVEMain
 
                         ArrayList<String> cost = new ArrayList<>();
                         cost.add("cost");
-                        cost.add(//Integer.toString(costCalculator(vehicle))
-                                "0");
+                        cost.add(Integer.toString(costCalculator(vehicle)));
                         vehicle.add(cost);
 
                         Sort(vehicle);
@@ -367,6 +366,11 @@ public class EVEMain
 
                 boolean valid = validColours && validManufacturers && validSails;
 
+                if (sails && vehicle.get(5).get(2).equals("schooner") && vehicle.get(1).get(1).equals("black")) valid = false;
+                if (sails &&vehicle.get(5).get(2).equals("xebec")&&  !vehicle.get(3).get(1).equals("Goliath Inc.")) valid = false;
+                if (!sails && vehicle.get(5).get(2).equals("jetski") && !vehicle.get(1).get(1).equals("green")) valid = false;
+                if (!sails && vehicle.get(5).get(2).equals("cargo ship") && !vehicle.get(4).get(1).equals("Goliath Inc.")) valid = false;
+
                 return valid;
             }
 
@@ -382,43 +386,102 @@ public class EVEMain
 
         public static int costCalculator (ArrayList<ArrayList<String>> vehicle)
             {
-                int baseCost = 0;
-                int fuelCost = 0;
-                int wheelCost = 0;
+                if (vehicle.get(vehicle.size()-1).get(0).equals(
+                        "wheels"))
+                {
+                    int baseCost = 0;
+                    int fuelCost = 0;
+                    int wheelCost = 0;
 
-                if (vehicle.get(4).get(2).equals("hatchback")) baseCost = 8000;
-                if (vehicle.get(4).get(2).equals("sedan")) baseCost = 12000;
-                if (vehicle.get(4).get(2).equals("convertible")) baseCost = 20000;
-                if (vehicle.get(4).get(2).equals("pickup")) baseCost = 20000;
-                if (vehicle.get(4).get(2).equals("eighteen wheeler")) baseCost = 35000;
-                if (vehicle.get(4).get(2).equals("sport")) baseCost = 16000;
-                if (vehicle.get(4).get(2).equals("touring")) baseCost = 9000;
+                    if (vehicle.get(4).get(2).equals("hatchback"))
+                        baseCost = 8000;
+                    if (vehicle.get(4).get(2).equals("sedan")) baseCost = 12000;
+                    if (vehicle.get(4).get(2).equals("convertible"))
+                        baseCost = 20000;
+                    if (vehicle.get(4).get(2).equals("pickup"))
+                        baseCost = 20000;
+                    if (vehicle.get(4).get(2).equals("eighteen wheeler"))
+                        baseCost = 35000;
+                    if (vehicle.get(4).get(2).equals("sport")) baseCost = 16000;
+                    if (vehicle.get(4).get(2).equals("touring"))
+                        baseCost = 9000;
 
-                if (vehicle.get(2).get(2).equals("electric")) fuelCost = 5000;
-                if (vehicle.get(2).get(2).equals("petrol")) fuelCost = 1000;
-                if (vehicle.get(2).get(2).equals("diesel")) fuelCost = 2000;
 
-                if (vehicle.get(5).get(2).equals("summer")) wheelCost = 100;
-                if (vehicle.get(5).get(2).equals("winter")) wheelCost = 120;
-                if (vehicle.get(5).get(2).equals("all-weather")) wheelCost = 150;
+                    if (vehicle.get(2).get(2).equals("electric"))
+                        fuelCost = 5000;
+                    if (vehicle.get(2).get(2).equals("petrol")) fuelCost = 1000;
+                    if (vehicle.get(2).get(2).equals("diesel")) fuelCost = 2000;
 
-                int totalCost =
-                        baseCost + fuelCost + (wheelCost*Integer.parseInt(vehicle.get(5).get(3)));
+                    if (vehicle.get(5).get(2).equals("summer")) wheelCost = 100;
+                    if (vehicle.get(5).get(2).equals("winter")) wheelCost = 120;
+                    if (vehicle.get(5).get(2).equals("all-weather"))
+                        wheelCost = 150;
 
-                if (vehicle.get(3).get(1).equals("ACME") && vehicle.get(5).get(1).equals("ACME") && vehicle.get(4).get(1).equals("car")) totalCost =
-                        totalCost-987;
+                    int totalCost =
+                            baseCost + fuelCost + (wheelCost *
+                                    Integer.parseInt(vehicle.get(5).get(3)));
 
-                if (vehicle.get(3).get(1).equals("Consolidated Products") && vehicle.get(5).get(2).equals("summer")) totalCost =
-                        totalCost+261;
+                    if (vehicle.get(3).get(1).equals("ACME") &&
+                            vehicle.get(5).get(1).equals("ACME") &&
+                            vehicle.get(4).get(1).equals("car")) totalCost =
+                            totalCost - 987;
 
-                if (vehicle.get(3).get(1).equals("Goliath Inc.") && vehicle.get(2).get(1).equals("Goliath Inc.") && vehicle.get(4).get(1).equals("car")) totalCost =
-                        totalCost-1354;
+                    if (vehicle.get(3).get(1).equals("Consolidated Products") &&
+                            vehicle.get(5).get(2).equals("summer")) totalCost =
+                            totalCost + 261;
 
-                if (vehicle.get(2).get(2).equals("electric") && vehicle.get(4).get(1).equals("car")) totalCost =
-                        totalCost-974;
+                    if (vehicle.get(3).get(1).equals("Goliath Inc.") &&
+                            vehicle.get(2).get(1).equals("Goliath Inc.") &&
+                            vehicle.get(4).get(1).equals("car")) totalCost =
+                            totalCost - 1354;
 
-                return totalCost;
+                    if (vehicle.get(2).get(2).equals("electric") &&
+                            vehicle.get(4).get(1).equals("car")) totalCost =
+                            totalCost - 974;
 
+                    return totalCost;
+
+
+                } else
+                {
+                    int baseCost = 0;
+                    int fuelCost = 0;
+                    int sailCost = 0;
+
+                    if (vehicle.get(4).get(2).equals("frigate"))
+                        baseCost = 100000;
+                    if (vehicle.get(4).get(2).equals("xebec")) baseCost = 5000;
+                    if (vehicle.get(4).get(2).equals("schooner"))
+                        baseCost = 10000;
+                    if (vehicle.get(4).get(2).equals("jetski"))
+                        baseCost = 1000;
+                    if (vehicle.get(4).get(2).equals("yacht"))
+                        baseCost = 50000;
+                    if (vehicle.get(4).get(2).equals("cargo ship")) baseCost =
+                            100000;
+
+
+                    boolean sails = vehicle.get(4).get(1).equals("sailing " +
+                            "vessel");
+
+                    if (!sails && vehicle.get(2).get(2).equals("petrol")) fuelCost = 1000;
+                    if (!sails && vehicle.get(2).get(2).equals("diesel")) fuelCost = 2000;
+
+                    if (sails && vehicle.get(3).get(2).equals("canvas")) sailCost = 500;
+                    if (sails && vehicle.get(3).get(2).equals("nylon")) sailCost = 350;
+                    if (sails && vehicle.get(3).get(2).equals("mylar"))
+                        sailCost = 900;
+
+                    int totalSailCost = 0;
+
+                    if(sails) totalSailCost =sailCost *
+                            Integer.parseInt(vehicle.get(3).get(3));
+
+                    int totalCost =
+                            baseCost + fuelCost + totalSailCost;
+
+                    return totalCost;
+                }
             }
 
     }
