@@ -270,6 +270,27 @@ public class EVEMain
                         validColours && validManufacturers && validTypes &&
                                 validSubtypes && validFuels && validWheelTypes &&
                                 wheelNumberCheck && rightNumberWheels;
+
+                if (vehicle.get(5).get(1).equals("motorcycle") && vehicle.get(6).get(1).equals("ACME"))
+                    {
+                        valid = false;
+                    }
+
+                if (vehicle.get(5).get(2).equals("eighteen wheeler") && !vehicle.get(6).get(2).equals("summer"))
+                    {
+                        valid = false;
+                    }
+
+                if (vehicle.get(5).get(2).equals("sedan") && vehicle.get(1).get(1).equals("purple"))
+                    {
+                        valid = false;
+                    }
+
+                if (vehicle.get(5).get(2).equals("pickup") && vehicle.get(1).get(1).equals("gold") && vehicle.get(4).get(1).equals("Goliath Inc."))
+                    {
+                        valid = false;
+                    }
+
                 return valid;
             }
 
