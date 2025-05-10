@@ -326,7 +326,22 @@ public class EVEMain
                 if (vehicle.get(5).get(2).equals("winter")) wheelCost = 120;
                 if (vehicle.get(5).get(2).equals("all-weather")) wheelCost = 150;
 
-                return baseCost + fuelCost + (wheelCost*Integer.parseInt(vehicle.get(5).get(3)));
+                int totalCost =
+                        baseCost + fuelCost + (wheelCost*Integer.parseInt(vehicle.get(5).get(3)));
+
+                if (vehicle.get(3).get(1).equals("ACME") && vehicle.get(5).get(1).equals("ACME") && vehicle.get(4).get(1).equals("car")) totalCost =
+                        totalCost-987;
+
+                if (vehicle.get(3).get(1).equals("Consolidated Products") && vehicle.get(5).get(2).equals("summer")) totalCost =
+                        totalCost+261;
+
+                if (vehicle.get(3).get(1).equals("Goliath Inc.") && vehicle.get(2).get(1).equals("Goliath Inc.") && vehicle.get(4).get(1).equals("car")) totalCost =
+                        totalCost-1354;
+
+                if (vehicle.get(2).get(2).equals("electric") && vehicle.get(4).get(1).equals("car")) totalCost =
+                        totalCost-974;
+
+                return totalCost;
 
             }
 
